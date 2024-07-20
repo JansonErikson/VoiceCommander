@@ -1,23 +1,25 @@
 import tkinter as tk
 from gui import TransparentChatWindow
 from stt import VoskSpeechToText
+from actions import execute_action
+import os
+import sys
 
-def execute_command(command):
-    # Führe die entsprechende Aktion basierend auf dem erkannten Befehl aus
-    if command in actions:
-        actions[command]()
+repo_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+model_path = os.path.join(repo_path, "model", "vosk-model-de-0.21")
+
+def on_speech_result(text):
+    chat_app.on_speech_result(text)
+    execute_action(text)
 
 if __name__ == "__main__":
-    model_path = "path/to/vosk/model"  # Pfad zum Vosk-Modell
-
     root = tk.Tk()
-    chat_app = TransparentChatWindow(root)
+    stt = VoskSpeechToText(model_path, on_speech_result)
+    chat_app = TransparentChatWindow(root, stt)
 
-    stt = VoskSpeechToText(model_path)
-    stt.start_listening()
 
     def on_close():
-        stt.stop_listening()
+        chat_app.stop_speech_recognition()
         root.destroy()
 
     root.protocol("WM_DELETE_WINDOW", on_close)

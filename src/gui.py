@@ -3,11 +3,12 @@ from tkinter import scrolledtext, Toplevel
 from stt import VoskSpeechToText
 
 class TransparentChatWindow:
-    def __init__(self, master):
+    def __init__(self, master, speech_recognition):
         self.master = master
         master.title("VoiceCommander")
         master.attributes('-alpha', 0.7)
         master.attributes('-topmost', True)
+
         
         # Window size and position
         window_width = 400
@@ -50,7 +51,7 @@ class TransparentChatWindow:
         self.commands_window = None
 
         # Speech recognition
-        self.speech_recognition = VoskSpeechToText(self.on_speech_result)
+        self.speech_recognition = speech_recognition
         self.is_listening = False
 
     def send_message(self, event=None):
@@ -153,7 +154,3 @@ class TransparentChatWindow:
         command_display.tag_configure('command', foreground='green')
         
         command_display.config(state='disabled')
-
-root = tk.Tk()
-chat_app = TransparentChatWindow(root)
-root.mainloop()
