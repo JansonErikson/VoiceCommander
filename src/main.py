@@ -1,6 +1,6 @@
 import tkinter as tk
-from TransparentChatWindow import TransparentChatWindow
-from VoskSpeechToText import VoskSpeechToText
+from gui import TransparentChatWindow
+from stt import VoskSpeechToText
 
 def execute_command(command):
     # Führe die entsprechende Aktion basierend auf dem erkannten Befehl aus

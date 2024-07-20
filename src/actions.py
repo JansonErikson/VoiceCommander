@@ -146,3 +146,42 @@ class GoogleChrome:
     def toggle_bookmarks():
         """Toggle the bookmarks bar (Ctrl + Shift + B)."""
         pyautogui.hotkey('ctrl', 'shift', 'b')
+
+
+
+def execute_action(command):
+    """Execute the action corresponding to the given command."""
+    command = command.lower()
+    if command in actions:
+        actions[command]()
+    else:
+        print(f"Unbekannter Befehl: {command}")
+
+# Dictionary to map commands to actions
+actions = {
+    "desktop": WindowsShortcuts.show_desktop,
+    "explorer": WindowsShortcuts.open_file_explorer,
+    "switchen": WindowsShortcuts.switch_window,
+    "tab wechseln": WindowsShortcuts.switch_tab,
+    "übersicht": WindowsShortcuts.open_task_view,
+    "fenster schließen": WindowsShortcuts.close_window,
+    "screenshot": WindowsShortcuts.take_screenshot,
+    "pfeil hoch": KeyPress.arrow_up,
+    "pfeil runter": KeyPress.arrow_down,
+    "pfeil links": KeyPress.arrow_left,
+    "pfeil rechts": KeyPress.arrow_right,
+    "weiter": KeyPress.press_tab,
+    "enter": KeyPress.press_enter,
+    "windows": KeyPress.open_start_menu,
+    "plus": ZoomAndScroll.zoom_in,
+    "minus": ZoomAndScroll.zoom_out,
+    "auf": ZoomAndScroll.scroll_up,
+    "ab": ZoomAndScroll.scroll_down,
+    "chrome": GoogleChrome.start_chrome,
+    "neuer tab": GoogleChrome.open_new_tab,
+    "tab schließen": GoogleChrome.close_tab,
+    "nächster tab": GoogleChrome.next_tab,
+    "tab zurück": GoogleChrome.previous_tab,
+    "downloads öffnen": GoogleChrome.open_downloads,
+    "lesezeichen": GoogleChrome.toggle_bookmarks
+}

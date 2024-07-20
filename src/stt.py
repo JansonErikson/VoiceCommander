@@ -3,10 +3,9 @@ import json
 from vosk import Model, KaldiRecognizer
 import threading
 import queue
-from actions import execute_action, actions
 
 class VoskSpeechToText:
-    def __init__(self, model_path, sample_rate=16000):
+    def __init__(self, model_path, callback, sample_rate=16000):
         self.model = Model(model_path)
         self.recognizer = KaldiRecognizer(self.model, sample_rate)
         self.sample_rate = sample_rate
@@ -14,6 +13,7 @@ class VoskSpeechToText:
         self.audio = pyaudio.PyAudio()
         self.running = False
         self.audio_queue = queue.Queue()
+        self.callback = callback
 
     def start_listening(self):
         self.running = True
@@ -50,27 +50,8 @@ class VoskSpeechToText:
                     self._check_keywords(result['text'])
 
     def _check_keywords(self, text):
-        words = text.lower().split()
-        for word in words:
-            if word in actions:
-                execute_action(word)
-                break  # Führe nur die Aktion für das erste erkannte Keyword aus
+        # Leite den erkannten Text an die Benutzeroberfläche weiter
+        self.callback(text)
 
     def __del__(self):
         self.audio.terminate()
-
-# Beispielverwendung
-if __name__ == "__main__":
-    model_path = "path/to/vosk/model"  # Pfad zum Vosk-Modell
-    
-    stt = VoskSpeechToText(model_path)
-    stt.start_listening()
-
-    # Simuliere eine laufende Anwendung
-    import time
-    try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        print("Beende Programm...")
-        stt.stop_listening()

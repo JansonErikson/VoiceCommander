@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import scrolledtext, Toplevel
+from stt import VoskSpeechToText
 
 class TransparentChatWindow:
     def __init__(self, master):
@@ -38,7 +39,7 @@ class TransparentChatWindow:
         self.send_button.pack(side='left', padx=5)
         
         # Record button
-        self.record_button = tk.Button(button_frame, text="Record", command=self.record_audio, bg='black', fg='light blue')
+        self.record_button = tk.Button(button_frame, text="Record", command=self.toggle_speech_recognition, bg='black', fg='light blue')
         self.record_button.pack(side='left', padx=5)
 
         # Commands button
@@ -47,6 +48,10 @@ class TransparentChatWindow:
 
         # Commands window
         self.commands_window = None
+
+        # Speech recognition
+        self.speech_recognition = VoskSpeechToText(self.on_speech_result)
+        self.is_listening = False
 
     def send_message(self, event=None):
         message = self.msg_entry.get()
@@ -60,10 +65,28 @@ class TransparentChatWindow:
             
             self.msg_entry.delete(0, tk.END)
 
-    def record_audio(self, event=None):
-        # Code for audio recording will be added here later
-        pass
-    
+    def toggle_speech_recognition(self):
+        if self.is_listening:
+            self.stop_speech_recognition()
+        else:
+            self.start_speech_recognition()
+
+    def start_speech_recognition(self):
+        self.speech_recognition.start_listening()
+        self.is_listening = True
+        self.record_button.config(text="Stop Recording", bg='red')
+
+    def stop_speech_recognition(self):
+        self.speech_recognition.stop_listening()
+        self.is_listening = False
+        self.record_button.config(text="Record", bg='black')
+
+    def on_speech_result(self, text):
+        self.chat_display.config(state='normal')
+        self.chat_display.insert(tk.END, f"Recognized: {text}\n")
+        self.chat_display.config(state='disabled')
+        self.chat_display.yview_moveto(0.99)
+
     def toggle_commands(self, event=None):
         if self.commands_window is None or not self.commands_window.winfo_exists():
             self.show_commands()
