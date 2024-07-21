@@ -55,8 +55,6 @@ class WindowsShortcuts:
         time.sleep(1)
         pyautogui.hotkey('alt', 'f4')
 
-WindowsShortcuts.take_screenshot()
-
 class KeyPress:
     """A class that provides methods for pressing individual keys."""
 

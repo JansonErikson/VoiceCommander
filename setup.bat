@@ -1,0 +1,5 @@
+@echo off
+python -m pip install --upgrade pip
+pip install PyAutoGUI==0.9.54 PyAudio==0.2.14 vosk==0.3.45 jellyfish==1.0.4
+echo Installation abgeschlossen!
+pause
