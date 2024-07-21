@@ -1,6 +1,7 @@
 import pyautogui
 import time
 
+screen_width, screen_height = pyautogui.size()
 
 
 class WindowsShortcuts:
@@ -38,9 +39,23 @@ class WindowsShortcuts:
 
     @staticmethod
     def take_screenshot():
-        """Take a screenshot (Windows + PrtScn)."""
-        pyautogui.hotkey('win', 'prtscn')
+        """Take a screenshot (Windows + shift + S)."""
+        x = screen_width - 100
+        y = screen_height - 120
+        pyautogui.hotkey('win', 'shift', 's')
+        time.sleep(1)
+        pyautogui.press('tab', presses=4, interval=0.2)
+        pyautogui.press('enter')
+        time.sleep(1)
+        pyautogui.click(x, y)
+        time.sleep(1)
+        pyautogui.hotkey('ctrl', 's')
+        time.sleep(1)
+        pyautogui.press('enter')
+        time.sleep(1)
+        pyautogui.hotkey('alt', 'f4')
 
+WindowsShortcuts.take_screenshot()
 
 class KeyPress:
     """A class that provides methods for pressing individual keys."""
