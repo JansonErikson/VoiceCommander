@@ -85,9 +85,10 @@ class TransparentChatWindow:
         self.record_button.config(text="Record", bg='black')
     
     def bring_to_front(self):
-        self.master.attributes('-topmost', False)
         self.master.attributes('-topmost', True)
+        self.master.lift()
         self.master.focus_force()
+        self.master.after(10, lambda: self.master.attributes('-topmost', False))
 
     def on_speech_result(self, text):
         self.chat_display.config(state='normal')
@@ -95,11 +96,10 @@ class TransparentChatWindow:
         self.chat_display.config(state='disabled')
         self.chat_display.yview_moveto(0.99)
         
-        execute_action(text, self)  # Übergeben Sie 'self' als zweites Argument
+        execute_action(text, self)
         
         if text.lower() in ["desktop", "übersicht"]:
-            time.sleep(0.5)
-            self.bring_to_front()
+            self.master.after(500, self.bring_to_front)  # 500 ms delay to allow the window to minimize
 
     def toggle_commands(self, event=None):
         if self.commands_window is None or not self.commands_window.winfo_exists():
@@ -134,12 +134,12 @@ class TransparentChatWindow:
             ("6. Übersicht", "Öffnet die Task-Ansicht"),
             ("7. Fenster Schließen", "Schließt das aktuelle Fenster"),
             ("8. Screenshot", "Erstellt einen Screenshot"),
-            ("9. Pfeil Hoch", "Drückt die Pfeiltaste nach oben"),
-            ("10. Pfeil Runter", "Drückt die Pfeiltaste nach unten"),
-            ("11. Pfeil Links", "Drückt die Pfeiltaste nach links"),
-            ("12. Pfeil Rechts", "Drückt die Pfeiltaste nach rechts"),
+            ("9. Nord", "Drückt die Pfeiltaste nach oben"),
+            ("10. Süd", "Drückt die Pfeiltaste nach unten"),
+            ("11. West", "Drückt die Pfeiltaste nach links"),
+            ("12. Ost", "Drückt die Pfeiltaste nach rechts"),
             ("13. Weiter", "Drückt die Tab-Taste"),
-            ("14. Enter", "Drückt die Enter-Taste"),
+            ("14. Bestätigen", "Drückt die Enter-Taste"),
             ("15. Windows", "Öffnet das Startmenü"),
             ("16. Plus", "Zoomt in"),
             ("17. Minus", "Zoomt aus"),

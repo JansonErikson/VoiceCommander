@@ -22,7 +22,6 @@ def on_speech_result(text):
     global chat_app
     try:
         chat_app.on_speech_result(text)
-        execute_action(text, chat_app)
     except Exception as e:
         logger.error(f"Fehler bei der Verarbeitung des Sprachergebnisses: {str(e)}")
 

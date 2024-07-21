@@ -1,0 +1,1 @@
+python C:\Users\jan-k\Documents\Coding fun\VoiceCommander\src\main.py

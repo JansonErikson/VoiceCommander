@@ -18,8 +18,8 @@ class VoskSpeechToText:
         self.available_commands = [
             "kommandos",
             "desktop", "explorer", "switchen", "tab wechseln", "übersicht",
-            "fenster schließen", "screenshot", "pfeil hoch", "pfeil runter",
-            "pfeil links", "pfeil rechts", "weiter", "enter", "windows",
+            "fenster schließen", "screenshot", "nord", "süd",
+            "west", "ost", "weiter", "bestätigen", "windows",
             "plus", "minus", "runter", "hoch", "internet", "neuer tab",
             "tab schließen", "nächster tab", "tab zurück", "downloads öffnen",
             "lesezeichen"
