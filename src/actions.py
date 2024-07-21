@@ -1,5 +1,7 @@
 import pyautogui
 import time
+from gui import TransparentChatWindow
+
 
 class WindowsShortcuts:
     """A class that provides methods for common Windows shortcuts."""
@@ -147,8 +149,6 @@ class GoogleChrome:
         """Toggle the bookmarks bar (Ctrl + Shift + B)."""
         pyautogui.hotkey('ctrl', 'shift', 'b')
 
-
-
 def execute_action(command):
     """Execute the action corresponding to the given command."""
     command = command.lower()
@@ -159,6 +159,7 @@ def execute_action(command):
 
 # Dictionary to map commands to actions
 actions = {
+    "Kommandos": TransparentChatWindow.toggle_commands,
     "desktop": WindowsShortcuts.show_desktop,
     "explorer": WindowsShortcuts.open_file_explorer,
     "switchen": WindowsShortcuts.switch_window,
@@ -175,9 +176,9 @@ actions = {
     "windows": KeyPress.open_start_menu,
     "plus": ZoomAndScroll.zoom_in,
     "minus": ZoomAndScroll.zoom_out,
-    "auf": ZoomAndScroll.scroll_up,
-    "ab": ZoomAndScroll.scroll_down,
-    "chrome": GoogleChrome.start_chrome,
+    "hoch": ZoomAndScroll.scroll_up,
+    "runter": ZoomAndScroll.scroll_down,
+    "internet": GoogleChrome.start_chrome,
     "neuer tab": GoogleChrome.open_new_tab,
     "tab schließen": GoogleChrome.close_tab,
     "nächster tab": GoogleChrome.next_tab,

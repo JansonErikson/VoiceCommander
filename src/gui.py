@@ -87,6 +87,9 @@ class TransparentChatWindow:
         self.chat_display.insert(tk.END, f"Recognized: {text}\n")
         self.chat_display.config(state='disabled')
         self.chat_display.yview_moveto(0.99)
+        
+        if text.lower() in ["desktop", "übersicht"]:
+            self.bring_to_front()
 
     def toggle_commands(self, event=None):
         if self.commands_window is None or not self.commands_window.winfo_exists():
@@ -113,7 +116,7 @@ class TransparentChatWindow:
         
         # List of commands and their descriptions
         commands = [
-            ("1. Kommands", "Zeigt die verfügbaren Befehle"),
+            ("1. Kommandos", "Zeigt die verfügbaren Befehle"),
             ("2. Desktop", "Zeigt den Desktop an"),
             ("3. Explorer", "Öffnet den Datei-Explorer"),
             ("4. Switchen", "Wechselt zum nächsten Fenster"),
@@ -130,9 +133,9 @@ class TransparentChatWindow:
             ("15. Windows", "Öffnet das Startmenü"),
             ("16. Plus", "Zoomt in"),
             ("17. Minus", "Zoomt aus"),
-            ("18. Auf", "Scrollt nach oben"),
-            ("19. Ab", "Scrollt nach unten"),
-            ("20. Chrome", "Startet Google Chrome"),
+            ("18. Hoch", "Scrollt nach oben"),
+            ("19. Runter", "Scrollt nach unten"),
+            ("20. Internet", "Startet Google Chrome"),
             ("21. Neuer Tab", "Öffnet einen neuen Tab in Chrome"),
             ("22. Tab schließen", "Schließt den aktuellen Tab in Chrome"),
             ("23. Nächster Tab", "Wechselt zum nächsten Tab in Chrome"),

@@ -16,12 +16,18 @@ class VoskSpeechToText:
         self.audio_queue = queue.Queue()
         self.callback = callback
         self.available_commands = [
+            "kommandos",
             "desktop", "explorer", "switchen", "tab wechseln", "übersicht",
             "fenster schließen", "screenshot", "pfeil hoch", "pfeil runter",
             "pfeil links", "pfeil rechts", "weiter", "enter", "windows",
-            "plus", "minus", "auf", "ab", "chrome", "neuer tab",
+            "plus", "minus", "runter", "hoch", "internet", "neuer tab",
             "tab schließen", "nächster tab", "tab zurück", "downloads öffnen",
             "lesezeichen"
+        ]
+        self.banned_keywords = [
+            "der", "die", "das", "ein", "eine", "einen", "und", "oder", "aber", "wenn", "dann",
+            "für", "mit", "von", "zu", "in", "an", "auf", "über", "unter", "vor",
+            "nach", "bei", "um", "durch", "aus", "zum", "zur", "am", "im", "Ayten", "Duyal", "danke" 
         ]
 
     def start_listening(self):
@@ -59,12 +65,26 @@ class VoskSpeechToText:
                     self._check_keywords(result['text'])
 
     def _check_keywords(self, text):
-        if len(text.strip()) > 3:  # Ignoriere sehr kurze Erkennungen
-            best_match = self.find_best_match(text, self.available_commands)
+        words = text.lower().split()
+        filtered_words = [word for word in words if word not in self.banned_keywords]
+        
+        if len(filtered_words) > 0:
+            if len(filtered_words) >= 2:
+                # Prüfe auf Teilübereinstimmungen mit Befehlen
+                for i in range(len(filtered_words)):
+                    for j in range(i+1, len(filtered_words)+1):
+                        phrase = " ".join(filtered_words[i:j])
+                        best_match = self.find_best_match(phrase, self.available_commands)
+                        if best_match:
+                            self.callback(best_match)
+                            return
+
+            # Wenn kein Befehl gefunden wurde, prüfe das gesamte gefilterte Text
+            best_match = self.find_best_match(" ".join(filtered_words), self.available_commands)
             if best_match:
                 self.callback(best_match)
             else:
-                self.callback(text)
+                self.callback(" ".join(filtered_words))
 
     @staticmethod
     def find_best_match(input_text, commands, threshold=0.7):
