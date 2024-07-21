@@ -1,0 +1,7 @@
+# TODO:
+#
+# place your model here in the model folder
+# 
+# Download Link:
+#
+# https://alphacephei.com/vosk/models

@@ -48,6 +48,9 @@ Or run the `setup.bat` file.
 
 3. Download the Vosk model for German language and place it in the `model` folder.
 
+Link to all Vosk Models:
+https://alphacephei.com/vosk/models
+
 ## Usage
 
 1. Run the `start.bat` file or execute `main.py` to start the application.
