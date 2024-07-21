@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import scrolledtext, Toplevel
+import time
 from stt import VoskSpeechToText
+from actions import execute_action
 
 class TransparentChatWindow:
     def __init__(self, master, speech_recognition):
@@ -81,6 +83,11 @@ class TransparentChatWindow:
         self.speech_recognition.stop_listening()
         self.is_listening = False
         self.record_button.config(text="Record", bg='black')
+    
+    def bring_to_front(self):
+        self.master.attributes('-topmost', False)
+        self.master.attributes('-topmost', True)
+        self.master.focus_force()
 
     def on_speech_result(self, text):
         self.chat_display.config(state='normal')
@@ -88,7 +95,10 @@ class TransparentChatWindow:
         self.chat_display.config(state='disabled')
         self.chat_display.yview_moveto(0.99)
         
+        execute_action(text, self)  # Übergeben Sie 'self' als zweites Argument
+        
         if text.lower() in ["desktop", "übersicht"]:
+            time.sleep(0.5)
             self.bring_to_front()
 
     def toggle_commands(self, event=None):

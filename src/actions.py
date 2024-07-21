@@ -1,6 +1,6 @@
 import pyautogui
 import time
-from gui import TransparentChatWindow
+
 
 
 class WindowsShortcuts:
@@ -88,25 +88,25 @@ class ZoomAndScroll:
     def zoom_in():
         """Zoom in (Ctrl + mouse wheel up)."""
         pyautogui.keyDown('ctrl')
-        pyautogui.scroll(120)
+        pyautogui.scroll(200)
         pyautogui.keyUp('ctrl')
     
     @staticmethod
     def zoom_out():
         """Zoom out (Ctrl + mouse wheel down)."""
         pyautogui.keyDown('ctrl')
-        pyautogui.scroll(-120)
+        pyautogui.scroll(-200)
         pyautogui.keyUp('ctrl')
     
     @staticmethod
     def scroll_up():
         """Scroll up (mouse wheel up)."""
-        pyautogui.scroll(100)
+        pyautogui.scroll(500)
     
     @staticmethod
     def scroll_down():
         """Scroll down (mouse wheel down)."""
-        pyautogui.scroll(-100)
+        pyautogui.scroll(-500)
 
 
 class GoogleChrome:
@@ -146,20 +146,22 @@ class GoogleChrome:
     
     @staticmethod
     def toggle_bookmarks():
-        """Toggle the bookmarks bar (Ctrl + Shift + B)."""
-        pyautogui.hotkey('ctrl', 'shift', 'b')
+        """Toggle the bookmarks bar (Ctrl + Shift + O)."""
+        pyautogui.hotkey('ctrl', 'shift', 'o')
 
-def execute_action(command):
+def execute_action(command, window_instance):
     """Execute the action corresponding to the given command."""
     command = command.lower()
     if command in actions:
-        actions[command]()
+        if command == "kommandos":
+            window_instance.toggle_commands()
+        else:
+            actions[command]()
     else:
         print(f"Unbekannter Befehl: {command}")
 
 # Dictionary to map commands to actions
 actions = {
-    "Kommandos": TransparentChatWindow.toggle_commands,
     "desktop": WindowsShortcuts.show_desktop,
     "explorer": WindowsShortcuts.open_file_explorer,
     "switchen": WindowsShortcuts.switch_window,
